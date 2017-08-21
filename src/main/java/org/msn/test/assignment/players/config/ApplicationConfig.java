@@ -1,7 +1,6 @@
 package org.msn.test.assignment.players.config;
 
 import net.sf.jsefa.csv.CsvIOFactory;
-import net.sf.jsefa.csv.config.CsvConfiguration;
 import org.msn.test.assignment.players.model.Player;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
