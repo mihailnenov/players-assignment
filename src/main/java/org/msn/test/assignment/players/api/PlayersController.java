@@ -1,5 +1,6 @@
 package org.msn.test.assignment.players.api;
 
+import io.swagger.annotations.ApiParam;
 import org.msn.test.assignment.players.exception.NotFoundException;
 import org.msn.test.assignment.players.model.PlayerDetails;
 import org.msn.test.assignment.players.model.PlayerStatistics;
@@ -32,7 +33,7 @@ public class PlayersController {
     }
 
     @RequestMapping(value = "/player/{playerId}", method = RequestMethod.GET)
-    public PlayerDetails playerById(@PathVariable long playerId) {
+    public PlayerDetails playerById(@ApiParam(defaultValue = "0") @PathVariable long playerId) {
         return playersService.getPlayer(playerId);
     }
 

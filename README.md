@@ -3,7 +3,13 @@
 **Used technology**
 
 For this task I am using Spring Boot and Spring MVC. The main reason is that I have very recent experience with this technology stack. I also believe it is very powerful and easy to use. It is also very easy to nicely integrate Swagger, which I implemented as well because I believe having live documentation is very important for API.
-Spring Boot solution produces lightweight package suitable for deploying with Docker and Kubenetes. Spring Boot can also be configured to use Jetty (instead of Tomcat) as a Java Servlet container, so the packege will be even lighter.  
+
+
+Spring Boot solution produces lightweight package suitable for deploying with Docker and Kubenetes. Spring Boot can also be configured to use Jetty (instead of Tomcat) as a Java Servlet container, so the packege will be even lighter.
+
+
+Please note that the API implementation is a bit complicated for this simple problem, but my idea is to show how a real life implementation should look like.
+
 
 **Run unit tests:**
 

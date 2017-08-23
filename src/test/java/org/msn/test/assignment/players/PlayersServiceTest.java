@@ -2,25 +2,42 @@ package org.msn.test.assignment.players;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.msn.test.assignment.players.exception.NotFoundException;
 import org.msn.test.assignment.players.model.PlayerDetails;
 import org.msn.test.assignment.players.model.PlayerStatistics;
+import org.msn.test.assignment.players.repository.PlayersRepository;
 import org.msn.test.assignment.players.service.PlayersService;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@RunWith(MockitoJUnitRunner.class)
 public class PlayersServiceTest {
 
     private PlayersService playersService;
 
-    private List<PlayerDetails> players = Arrays.asList(new PlayerDetails(1L), new PlayerDetails(2L));
+    @Mock
+    private PlayersRepository players;
+
+    private PlayerDetails player1 = new PlayerDetails(1L);
+    private PlayerDetails player2 = new PlayerDetails(2L);
 
     @Before
     public void setUp() {
+
+        Mockito.when(players.findAll()).thenReturn(Arrays.asList(player1, player2));
+        Mockito.when(players.findByPlayerId(1L)).thenReturn(Optional.of(player1));
+        Mockito.when(players.findByPlayerId(2L)).thenReturn(Optional.of(player2));
+        Mockito.when(players.findByPlayerId(123L)).thenReturn(Optional.empty());
+
         playersService = new PlayersService(players);
     }
 
@@ -30,7 +47,8 @@ public class PlayersServiceTest {
         List<PlayerStatistics> result = playersService.getPlayers();
 
         assertNotNull(result);
-        assertEquals(result.size(), players.size());
+        assertEquals(result.size(), players.findAll().size());
+
         assertEquals(new PlayerStatistics(1L), result.get(0));
         assertEquals(new PlayerStatistics(2L), result.get(1));
     }
@@ -38,10 +56,15 @@ public class PlayersServiceTest {
     @Test
     public void testPlayerByIdSuccess() throws Exception {
 
-        PlayerDetails player = playersService.getPlayer(1L);
+        PlayerDetails player1Found = playersService.getPlayer(1L);
 
-        assertNotNull(player);
-        assertEquals(new PlayerDetails(1L), player);
+        assertNotNull(player1Found);
+        assertEquals(player1, player1Found);
+
+        PlayerDetails player2Found = playersService.getPlayer(2L);
+
+        assertNotNull(player2Found);
+        assertEquals(player2, player2Found);
     }
 
     @Test(expected = NotFoundException.class)
