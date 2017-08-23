@@ -1,4 +1,4 @@
-package org.msn.test.assignment.players;
+package org.msn.test.assignment.players.api;
 
 import org.junit.Before;
 import org.junit.Test;

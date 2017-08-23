@@ -36,7 +36,7 @@ Please note that the API implementation is a bit complicated for this simple pro
 1. I am not sure what would be the proper scale for the decimal values, so I put it to 5
 2. Model is not good enough, entities have duplicating fields - should be refined
 3. Project Lombok can be used to reduce verbosity on the entity classes
-4. Tests can be extended
+4. Tests can be extended to increase coverage, but even now they are pretty much enough
 5. Error handling can be improved - error and success response should be returned in а common structure
 6. UI is very basic and far from perfect. I was actually not expecting a full-stack assignment but I did my best to finish it in time.
   
