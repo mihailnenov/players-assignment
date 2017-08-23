@@ -1,5 +1,6 @@
 package org.msn.test.assignment.players.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.msn.test.assignment.players.util.JsonBigDecimalSerializer;
@@ -13,6 +14,7 @@ public class PlayerStatistics extends Player {
 
     private String name;
 
+    @JsonIgnore
     private Long playerId;
 
     private String playedPositionsShort;
