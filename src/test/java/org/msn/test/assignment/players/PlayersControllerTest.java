@@ -8,7 +8,8 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.msn.test.assignment.players.api.PlayersController;
 import org.msn.test.assignment.players.exception.NotFoundException;
-import org.msn.test.assignment.players.model.Player;
+import org.msn.test.assignment.players.model.PlayerDetails;
+import org.msn.test.assignment.players.model.PlayerStatistics;
 import org.msn.test.assignment.players.service.PlayersService;
 
 import java.util.Arrays;
@@ -33,9 +34,9 @@ public class PlayersControllerTest {
     @Test
     public void testPlayersListSuccess() throws Exception {
 
-        Mockito.when(playersService.getPlayers()).thenReturn(Arrays.asList(new Player(111L), new Player(222L)));
+        Mockito.when(playersService.getPlayers()).thenReturn(Arrays.asList(new PlayerStatistics(111L), new PlayerStatistics(222L)));
 
-        List<Player> result = controller.playersList();
+        List<PlayerStatistics> result = controller.playersList();
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -54,9 +55,9 @@ public class PlayersControllerTest {
     @Test
     public void testPlayerByIdSuccess() throws Exception {
 
-        Mockito.when(playersService.getPlayer(Mockito.anyLong())).thenReturn(new Player(123L));
+        Mockito.when(playersService.getPlayer(Mockito.anyLong())).thenReturn(new PlayerDetails(123L));
 
-        Player player = controller.playerById(1L);
+        PlayerDetails player = controller.playerById(1L);
 
         assertNotNull(player);
         assertEquals(123L, (long) player.getPlayerId());

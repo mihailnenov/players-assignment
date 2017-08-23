@@ -1,26 +1,23 @@
 package org.msn.test.assignment.players.config;
 
-import net.sf.jsefa.csv.CsvIOFactory;
-import org.msn.test.assignment.players.model.Player;
+import org.msn.test.assignment.players.model.PlayerDetails;
+import org.msn.test.assignment.players.util.DataLoader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 @Configuration
 public class ApplicationConfig {
 
+    @Value("${data.file.name}")
+    private String dataFile;
+
     @Bean
-    public List<Player> createListOfPayers() {
+    public List<PlayerDetails> createListOfPayers() throws IOException {
 
-        CsvIOFactory.createFactory(Player.class).createDeserializer();
-
-        return new ArrayList<Player>() {
-            {
-                add(new Player(1l));
-                add(new Player(2l));
-            }
-        };
+        return DataLoader.load(dataFile);
     }
 }

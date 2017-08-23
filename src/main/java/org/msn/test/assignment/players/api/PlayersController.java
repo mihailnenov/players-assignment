@@ -1,7 +1,8 @@
 package org.msn.test.assignment.players.api;
 
 import org.msn.test.assignment.players.exception.NotFoundException;
-import org.msn.test.assignment.players.model.Player;
+import org.msn.test.assignment.players.model.PlayerDetails;
+import org.msn.test.assignment.players.model.PlayerStatistics;
 import org.msn.test.assignment.players.service.PlayersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,12 +27,12 @@ public class PlayersController {
     }
 
     @RequestMapping(value = "/players", method = RequestMethod.GET)
-    public List<Player> playersList() {
+    public List<PlayerStatistics> playersList() {
         return playersService.getPlayers();
     }
 
     @RequestMapping(value = "/player/{playerId}", method = RequestMethod.GET)
-    public Player playerById(@PathVariable long playerId) {
+    public PlayerDetails playerById(@PathVariable long playerId) {
         return playersService.getPlayer(playerId);
     }
 
