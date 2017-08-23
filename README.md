@@ -28,8 +28,9 @@ For this task I am using Spring Boot and Spring MVC. The main reason is that I h
 **Comments**
 1. I am not sure what would be the proper scale for the decimal values, so I put it to 5
 2. Model is not good enough, entities have duplicating fields - should be refined
-3. Tests can be extended
-4. Error handling can be improved - error and success response should be returned in а common structure
-4. UI is very basic and far from perfect. I was actually not expecting a full-stack assignment but I did my best to finish it in time.
+3. Poject Lombok can be used to reduce verbosity on the entity classes, but I don't like it that much
+4. Tests can be extended
+5. Error handling can be improved - error and success response should be returned in а common structure
+6. UI is very basic and far from perfect. I was actually not expecting a full-stack assignment but I did my best to finish it in time.
   
   
