@@ -1,12 +1,251 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
+
 <head>
-    <meta charset="UTF-8" />
-    <title></title>
+    <meta charset="UTF-8"/>
+    <title>Players Application</title>
+    <script src="https://unpkg.com/vue"/>
+    <script src="file:///home/mnenov/projects/aplaytech/src/main/resources/js/ui.js"/>
 </head>
+
+<script lang="javascript"></script>
+
 <body>
-<p>
-    <span th:text="${hello}">Hello!</span>
-</p>
+
+<style style="text/css">
+
+    .tableHover tr:hover {background-color: gray;}
+
+    .tableHover th:hover {background-color: gray;}
+
+     th {border: 1px solid silver; background-color:silver; text-transform: capitalize;}
+
+    .container table { width:100%; border: 0px solid black; padding:3px;}
+
+    .topContainer div { width:70%;height:70%;justify-content:center;align-items:center;}
+
+    .onLeft {width:50%; text-align:left}
+
+    .onRight {width:50%; text-align:right}
+
+</style>
+
+<script type="text/x-template" id="grid-template">
+    <table style="cursor:pointer; border: 1px solid gray;width:100%">
+        <thead>
+        <tr>
+            <th
+                v-for="key in columns"
+                @click="sortBy(key)"
+                :class="{ active: sortKey == key }">
+                {{ key | capitalize }}
+                <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></span>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="entry in filteredData">
+            <td v-for="key in columns" style="border: 1px solid silver;">
+                <table-grid-cell :item="entry" :field="key"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/x-template" id="grid-template-cell">
+    <div style="width:100%" v-on:click="navigate">{{item[field]}}</div>
+</script>
+
+<div class="topContainer" style="border: 0px solid black; display:flex;justify-content:center;align-items:center;width:100%;height:100%;">
+
+    <div class=container id="players" v-if="show">
+        <table>
+            <tr>
+                <td class="onLeft"><h4>List of footballers</h4></td>
+                <td class="onRight">
+                    <form id="search">
+                        Search <input name="query" v-model="searchQuery">
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <table-grid class="tableHover"
+                    :data="gridData"
+                    :columns="gridColumns"
+                    :filter-key="searchQuery">
+        </table-grid>
+    </div>
+
+    <div class="container" id="details" v-if="show">
+        <table>
+            <tr>
+                <td class="onLeft"><h4>{{tableCaption}}</h4></td>
+                <td class="onRight">
+                    <button style="font-weight: bold;" v-on:click="back">BACK</button>
+                </td>
+            </tr>
+        </table>
+        <table-grid
+                :data="gridData"
+                :columns="gridColumns"
+                :filter-key="searchQuery">
+        </table-grid>
+    </div>
+</div>
+
+<script lang="javascript">
+
+function toArray(obj) {
+    var arr = [];
+    for (var keyP in obj) {
+        if (obj.hasOwnProperty(keyP)) {
+            arr.push({key:keyP, value:obj[keyP]});
+        }
+    }
+    return arr;
+}
+
+Vue.component('table-grid-cell', {
+  template: '#grid-template-cell',
+  props: {
+    item: Object,
+    field: String
+  },
+  methods: {
+    navigate: function () {
+      details.showDetails(this.item.playerId);
+    }
+  }
+})
+
+Vue.component('table-grid', {
+  template: '#grid-template',
+  props: {
+    data: Array,
+    columns: Array,
+    filterKey: String,
+    title: String
+  },
+  data: function () {
+    var sortOrders = {}
+    this.columns.forEach(function (key) {
+      sortOrders[key] = 1
+    })
+    return {
+      sortKey: '',
+      sortOrders: sortOrders
+    }
+  },
+  computed: {
+    filteredData: function () {
+      var sortKey = this.sortKey
+      var filterKey = this.filterKey && this.filterKey.toLowerCase()
+      var order = this.sortOrders[sortKey] || 1
+      var data = this.data
+      if (filterKey) {
+        data = data.filter(function (row) {
+          return Object.keys(row).some(function (key) {
+            return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+          })
+        })
+      }
+      if (sortKey) {
+        data = data.slice().sort(function (a, b) {
+          a = a[sortKey]
+          b = b[sortKey]
+          return (a === b ? 0 : a > b ? 1 : -1) * order
+        })
+      }
+      return data
+    }
+  },
+  filters: {
+    capitalize: function (str) {
+      return str.charAt(0).toUpperCase() + str.slice(1)
+    }
+  },
+  methods: {
+    sortBy: function (key) {
+      this.sortKey = key
+      this.sortOrders[key] = this.sortOrders[key] * -1
+    }
+  }
+})
+
+// statistics
+var players = new Vue({
+  el: '#players',
+  data: {
+    searchQuery: '',
+    gridColumns: [],
+    gridData: [],
+    show:true,
+    tableCaption: 'List of footballers'
+  },
+  beforeMount() {
+    fetch(`http://localhost:8080/api/players`)
+      .then((resp) => {
+        const contentType = resp.headers.get('content-type');
+
+        if (contentType && contentType.includes('application/json')) {
+          return resp.json();
+        }
+        throw new TypeError('Not legal json.');
+      })
+      .then((json) => {
+        this.gridData = json;
+        this.gridColumns = Object.keys(json[0]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+})
+
+// details
+var details = new Vue({
+  el: '#details',
+  data: {
+    searchQuery: '',
+    gridColumns: [],
+    gridData: [],
+    show:false,
+    tableCaption: ''
+  },
+  methods: {
+    showDetails: function(id) {
+
+        if (id > 0) {
+           fetch(`http://localhost:8080/api/player/${id}`)
+          .then((resp) => {
+            const contentType = resp.headers.get('content-type');
+
+            if (contentType && contentType.includes('application/json')) {
+              return resp.json();
+            }
+            throw new TypeError('Not legal json.');
+          })
+          .then((json) => {
+            this.tableCaption = json.name;
+            this.gridData = toArray(json);
+            this.gridColumns = Object.keys(this.gridData[0]);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+        }
+
+        this.show=true;
+        players.show=false;
+    },
+    back: function() {
+        this.show = false
+        players.show = true;;
+    }
+  }
+})
+
+</script>
 </body>
 </html>

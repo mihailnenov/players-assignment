@@ -14,7 +14,6 @@ public class PlayerStatistics extends Player {
 
     private String name;
 
-    @JsonIgnore
     private Long playerId;
 
     private String playedPositionsShort;
