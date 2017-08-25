@@ -10,7 +10,7 @@ Spring Boot solution produces lightweight package suitable for deploying with Do
 
 Please note that the API implementation is a bit complicated for this simple problem, but my idea is to show how a real life implementation should look like. 
 
-On the contrary the UI is simplified, since I didn't have the time to create proper modular solution (might be packaged in buld time with Node.js and WebPack).
+On the contrary the UI is simplified, since I didn't have the time to create proper modular solution (might be packaged in buld time with Node.js and WebPack). I used Vue.js for building the UI.
 
 
 **Run unit tests:**
