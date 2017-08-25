@@ -8,7 +8,9 @@ For this task I am using Spring Boot and Spring MVC. The main reason is that I h
 Spring Boot solution produces lightweight package suitable for deploying with Docker and Kubenetes. Spring Boot can also be configured to use Jetty (instead of Tomcat) as a Java Servlet container, so the packege will be even lighter.
 
 
-Please note that the API implementation is a bit complicated for this simple problem, but my idea is to show how a real life implementation should look like.
+Please note that the API implementation is a bit complicated for this simple problem, but my idea is to show how a real life implementation should look like. 
+
+On the contrary the UI is simplified, since I didn't have the time to create proper modular solution (might be packaged in buld time with Node.js and WebPack).
 
 
 **Run unit tests:**
@@ -39,5 +41,8 @@ Please note that the API implementation is a bit complicated for this simple pro
 4. Tests can be extended to increase coverage, but even now they are pretty much enough
 5. Error handling can be improved - error and success response should be returned in а common structure
 6. UI is very basic and far from perfect. I was actually not expecting a full-stack assignment but I did my best to finish it in time.
+7. UI will not work on IE because fetch() is not supported
+8. UI requires interned access because some of the JS libraries are downloaded from external resources
+9. Design is minimalistic, but the players list is sortable and searchable
   
   
