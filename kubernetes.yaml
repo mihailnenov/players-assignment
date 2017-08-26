@@ -1,0 +1,72 @@
+#
+# football-players service, exposed to public (type = LoadBalancer)
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: football-players
+  labels:
+    app: football-players
+spec:
+  type: LoadBalancer
+  ports:
+  - name: server-port
+    port: 8080
+    targetPort: http
+    protocol: TCP
+  selector:
+    app: football-players
+
+---
+
+#
+# Autoscaler setup for the football-players service
+#
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: football-players
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: football-players
+  minReplicas: 3
+  maxReplicas: 9
+  targetCPUUtilizationPercentage: 50
+
+---
+
+#
+# Deployment for the football-players service
+#
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: football-players
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: football-players
+  template:
+    metadata:
+      labels:
+        app: football-players
+        version: v0.0.1
+        tier: backend
+    spec:
+      containers:
+      - image: gcr.io/${GCLOUD_PROJECT}/football-players
+        name: football-players
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 50m
+            memory: 16Mi
+          requests:
+            cpu: 25m
+            memory: 4Mi
