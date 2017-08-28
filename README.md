@@ -37,7 +37,8 @@ On the contrary the UI is simplified, since I didn't have the time to create pro
 
 **Access GCloud service**
 
-*` curl -X GET http://35.195.189.224/api/players`*
+*`curl -X GET http://35.195.189.224/api/players`*
+
 *`curl -X GET http://35.195.189.224/api/player/8040`*
 
 
