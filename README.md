@@ -34,6 +34,11 @@ On the contrary the UI is simplified, since I didn't have the time to create pro
 [http://localhost:8080/ui.html](http://localhost:8080/ui.html)
   
 
+**Access GCloud service**
+[curl -X GET http://35.195.189.224/api/players](curl -X GET http://35.195.189.224/api/players)
+[curl -X GET http://35.195.189.224/api/player/8040](curl -X GET http://35.195.189.224/api/player/8040)
+
+
 **Comments**
 1. I am not sure what would be the proper scale for the decimal values, so I put it to 5
 2. Model is not good enough, entities have duplicating fields - should be refined
