@@ -10,7 +10,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - name: server-port
+  - name: http
     port: 8080
     targetPort: http
     protocol: TCP
@@ -59,14 +59,15 @@ spec:
         tier: backend
     spec:
       containers:
-      - image: gcr.io/${GCLOUD_PROJECT}/football-players
+      - image: gcr.io/${GCLOUD_PROJECT}/football-players:v0.0.1
         name: football-players
         ports:
         - containerPort: 8080
+          name: http
         resources:
           limits:
             cpu: 50m
-            memory: 16Mi
+            memory: 800Mi
           requests:
             cpu: 25m
-            memory: 4Mi
+            memory: 512Mi
