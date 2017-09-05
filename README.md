@@ -41,6 +41,8 @@ On the contrary the UI is simplified, since I didn't have the time to create pro
 
 *`curl -X GET http://35.195.189.224/api/player/8040`*
 
+**Deploy to your own GCloud project**
+./build-publish-deploy.sh <project_name>
 
 **Comments**
 1. I am not sure what would be the proper scale for the decimal values, so I put it to 5
