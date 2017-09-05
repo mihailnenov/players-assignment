@@ -53,7 +53,7 @@ On the contrary the UI is simplified, since I didn't have the time to create pro
 5. Error handling can be improved - error and success response should be returned in а common structure
 6. UI is very basic and far from perfect. I was actually not expecting a full-stack assignment but I did my best to finish it in time.
 7. UI will not work on IE because fetch() is not supported
-8. UI requires interned access because some of the JS libraries are downloaded from external resources
-9. Design is minimalistic, but the players list is sortable and searchable
+8. UI requires internet access because some of the JS libraries are downloaded from external resources
+9. Design is minimalistic, but the players list is sortable and searchable.
   
   
