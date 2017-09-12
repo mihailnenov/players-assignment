@@ -30,8 +30,8 @@ spec:
   scaleTargetRef:
     kind: Deployment
     name: football-players
-  minReplicas: 3
-  maxReplicas: 9
+  minReplicas: 2
+  maxReplicas: 4
   targetCPUUtilizationPercentage: 50
 
 ---
@@ -67,7 +67,7 @@ spec:
         resources:
           limits:
             cpu: 50m
-            memory: 800Mi
+            memory: 960Mi
           requests:
             cpu: 25m
-            memory: 512Mi
+            memory: 800Mi
