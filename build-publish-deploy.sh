@@ -11,5 +11,5 @@ if [ ! ${GCLOUD_PROJECT} ]; then echo "Please provide GCloud project name!"; exi
 # Push Docker container to the registry
 [ $? -eq 0 ] && gcloud docker -- push gcr.io/${GCLOUD_PROJECT}/football-players:v0.0.1
 
-# Deploy both service to Kubernetes
+# Deploy service to Kubernetes
 [ $? -eq 0 ] && cat kubernetes.yaml | envsubst | kubectl apply -f -
